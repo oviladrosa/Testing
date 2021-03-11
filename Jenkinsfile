@@ -34,11 +34,7 @@ pipeline {
       }
     }
     stage('Sonarqube') {
-       agent {
-          docker {
-            image 'gradle:latest'
-          }
-        }
+      
         environment {
             scannerHome = tool 'SonarQubeScanner'
         }
