@@ -36,7 +36,7 @@ pipeline {
     stage('Sonarqube') {
       agent {
         docker {
-          image 'gradle:latest' 
+          image 'sonarsource/sonar-scanner-cli' 
         }
       }
         environment {
