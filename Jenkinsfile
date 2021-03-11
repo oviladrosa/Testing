@@ -25,15 +25,20 @@ pipeline {
       }
     }
     stage('Sonarqube') {
+      agent {
+        docker {
+          image 'openjdk'
+        }
+      }
         environment {
             scannerHome = tool 'SonarQubeScanner'
         }
         steps {
-           nodejs(nodeJSInstallationName: 'node12') {
+           
             withSonarQubeEnv('sonarqube') {
                 sh "${scannerHome}/bin/sonar-scanner"
             }
-           }
+           
         }
     }
   }
