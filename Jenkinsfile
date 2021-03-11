@@ -7,8 +7,20 @@ pipeline {
   stages {
     stage('Build') {
       steps {
+         echo 'Starting building test docker image'
          sh 'npm install'
       }
-    }  
+      post {
+        success {
+          echo 'Image successfully build'
+        }
+        failure {
+          echo 'Failed to build image'
+        }
+      }
+    }
+    stage('Test') {
+      echo 'Starting API tests'
+    }
   }
 }
