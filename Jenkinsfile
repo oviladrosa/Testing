@@ -20,7 +20,9 @@ pipeline {
       }
     }
     stage('Test') {
-      echo 'Starting API tests'
+      steps {
+        echo 'Starting API tests'
+      }
     }
   }
 }
