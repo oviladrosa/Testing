@@ -36,7 +36,7 @@ pipeline {
     stage('Sonarqube') {
        agent {
           docker {
-            image 'maven:latest'
+            image 'gradle:latest'
           }
         }
         environment {
