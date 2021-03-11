@@ -1,17 +1,12 @@
 pipeline {
-  agent any
-  tools {nodejs "latest"}
+  agent {
+      image 'node:6-alpine'
+      args '-p 
+  }
   stages {
-        
-    stage('Git') {
-      steps {
-        git 'https://github.com/aniol-carbo/musea-api'
-      }
-    }
-     
     stage('Build') {
       steps {
-        sh 'npm install'
+         sh 'npm install'
          sh 'node server.js'
       }
     }  
