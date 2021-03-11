@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Musea</title>
+</head>
+<body>
+<div>
+    Our museums are:
+    <% if(museums.length){
+      for(var i = 0;i < museums.length;i++) { %>
+        <div style="background-color: aqua; margin-bottom: 15px;">
+          <p> Id: <%=museums[i]._id%> </p>
+          <p> Name: <%=museums[i].name%> </p>
+          <p> Address: <%=museums[i].address%> </p>
+          <p> City: <%=museums[i].city%> </p>
+          <p> Country: <%=museums[i].country%> </p>
+          <p> Location: [ <%=museums[i].location%> ]</p>
+        </div>
+      <% }
+  } %>
+</div>
+  <!-- Our museums are:
+  <br>
+  <%- museums %>
+  <br>
+  Enjoy! -->
+</body>
+</html>
