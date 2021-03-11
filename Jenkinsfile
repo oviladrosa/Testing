@@ -1,7 +1,6 @@
 pipeline {
   agent {
       image 'node:6-alpine'
-      args '-p 
   }
   stages {
     stage('Build') {
