@@ -1,11 +1,15 @@
 pipeline {
-  agent {
-    docker {
-      image 'node:10-alpine'
+  agent none
+  environment {
+        CI = 'true' 
     }
-  }
   stages {
     stage('Build') {
+       agent {
+          docker {
+            image 'node:10-alpine'
+          }
+      }
       steps {
          echo 'Starting building test docker image'
          sh 'npm install'
@@ -20,6 +24,11 @@ pipeline {
       }
     }
     stage('Test') {
+        agent {
+          docker {
+            image 'node:10-alpine'
+          }
+        }
       steps {
         echo 'Starting API tests'
       }
@@ -27,7 +36,7 @@ pipeline {
     stage('Sonarqube') {
       agent {
         docker {
-          image 'openjdk'
+          image 'maven:3-alpine'
         }
       }
         environment {
