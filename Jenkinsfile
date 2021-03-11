@@ -1,8 +1,6 @@
 pipeline {
   agent any
-    
-  tools {nodejs "node"}
-    
+  tools {nodejs "latest"}
   stages {
         
     stage('Git') {
@@ -17,11 +15,5 @@ pipeline {
          sh 'node server.js'
       }
     }  
-    
-            
-    stage('Test') {
-      steps {
-      }
-    }
   }
 }
