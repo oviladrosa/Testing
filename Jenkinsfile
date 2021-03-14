@@ -142,7 +142,10 @@ pipeline {
 }
 
 def commitInfo() {
-    def msg = 'hola'
+    def msg = sh(
+        script: 'git --no-pager show -s --format="[%an] **%s**"',
+        returnStdout: true
+    )
     return msg
 }
 
