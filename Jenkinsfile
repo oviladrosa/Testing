@@ -52,13 +52,14 @@ pipeline {
     }
      stage('Quality Gate') {
             steps {
+              options {
+                timeout(time: 15, units: 'MINUTES')
+              }
                 script {
-                    timeout(time: 15, units: 'MINUTES') {
                         def qg = waitForQualityGate()
                         if (qg.status != 'OK') {
                             currentBuild.result = 'UNSTABLE'
                         }
-                    }
                 }
             }
             post {
