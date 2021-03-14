@@ -114,7 +114,7 @@ pipeline {
             script {
                 
                     def msg = commitInfo() + "\nCongratulations, your commit works!\nAnd it's already **deployed**!"
-                    def img = 'https://ibb.co/RyQxQxP'
+                    def img = 'https://animal.mx/wp-content/uploads/2020/08/leonardo-dicaprio-memes-django-.jpg'
                     notifyDiscord(msg, img)
                 
             }
@@ -127,14 +127,14 @@ pipeline {
                 } else if (UNSUCCESSFUL_STAGE == 'Quality Gate') {
                     msg = msg + "I'm sorry, sonarqube didn't like your commit..."
                 }
-                img = 'https://ibb.co/RyQxQxP'
+                img = 'https://i.kym-cdn.com/entries/icons/original/000/027/995/crying.jpg'
                 notifyDiscord(msg, img)
             }
         }
         failure {
             script {
                 def msg = commitInfo() + "\nIt seems something went wrong at stage ${UNSUCCESSFUL_STAGE}"
-                img = 'https://ibb.co/RyQxQxP'
+                img = 'https://www.dictionary.com/e/wp-content/uploads/2018/03/This-is-Fine-300x300.jpg'
                 notifyDiscord(msg, img)
             }
         }
