@@ -141,6 +141,14 @@ pipeline {
     }
 }
 
+def commitInfo() {
+    def msg = sh(
+        script: 'git --no-pager show -s --format="[%an] **%s**"',
+        returnStdout: true
+    )
+    return msg
+}
+
 def notifyDiscord(String msg, String img) {
     msg = msg + "\n\n[SonarQube](http://10.4.41.141:9000/dashboard?id=my%3AmuseaApi)"
     withCredentials([string(credentialsId: 'discord-webhook', variable: 'webhook')]) {
