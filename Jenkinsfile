@@ -61,6 +61,26 @@ pipeline {
                 }
               }
             }
+       post {
+                success {
+                    echo 'SonarQube quality gate passed'
+                }
+                unstable {
+                    echo 'SonarQube quality gate failed'
+                    echo 'Build marked as unstable'
+                    script {
+                        if (UNSUCCESSFUL_STAGE == 'null') {
+                            UNSUCCESSFUL_STAGE = env.STAGE_NAME
+                        }                        
+                    }
+                }
+                failure {
+                    echo 'Quality gate not received'
+                    script {
+                        UNSUCCESSFUL_STAGE = env.STAGE_NAME
+                    }
+                }
+            }
            
         }
   }
