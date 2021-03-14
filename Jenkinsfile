@@ -84,29 +84,73 @@ pipeline {
            
         }
     stage('Deploy') {
-      when {
-                expression {
-                    currentBuild.result == null || currentBuild.result == 'SUCCESS'
+        when {
+                  expression {
+                      currentBuild.result == null || currentBuild.result == 'SUCCESS'
+                  }
+              }
+        parallel {
+          stage('Stage') {
+            when {
+              branch 'development' 
+            }
+            steps {
+            echo 'deploy to development' 
+            }
+          }
+          stage('Prod') {
+            when {
+              branch 'main' 
+            }
+            steps {
+            echo 'deploy to master' 
+            }
+          }
+        }
+    }
+  }
+   post {
+        success {
+            script {
+                if (env.BRANCH_NAME == 'main' || env.BRANCH_NAME == 'development') {
+                    def msg = commitInfo() + "\nCongratulations, your commit works!\nAnd it's already **deployed**!"
+                    def img = 'https://ibb.co/RyQxQxP'
+                    notifyDiscord(msg, img)
                 }
             }
-      parallel {
-        stage('Stage') {
-          when {
-            branch 'development' 
-          }
-          steps {
-           echo 'deploy to development' 
-          }
         }
-        stage('Prod') {
-          when {
-            branch 'main' 
-          }
-          steps {
-           echo 'deploy to master' 
-          }
+        unstable {
+            script {
+                def msg = commitInfo() + '\n'
+                if (UNSUCCESSFUL_STAGE == 'Test') {
+                    msg = msg + "Lol, it didn't even pass the tests..."
+                } else if (UNSUCCESSFUL_STAGE == 'Quality Gate') {
+                    msg = msg + "I'm sorry, sonarqube didn't like your commit..."
+                }
+                img = 'https://ibb.co/RyQxQxP'
+                notifyDiscord(msg, img)
+            }
         }
-      }
-  }
-  }
+        failure {
+            script {
+                def msg = commitInfo() + "\nIt seems something went wrong at stage ${UNSUCCESSFUL_STAGE}"
+                img = 'https://ibb.co/RyQxQxP'
+                notifyDiscord(msg, img)
+            }
+        }
+    }
+}
+
+def notifyDiscord(String msg, String img) {
+    msg = msg + "\n\n[SonarQube](http://10.4.41.141:9000/dashboard?id=my%3AmuseaApi)"
+    withCredentials([string(credentialsId: 'discord-webhook', variable: 'webhook')]) {
+        discordSend(
+            webhookURL: "https://discord.com/api/webhooks/820675539794657280/0QaawQ9Mm6b3yE_-MnV3AGm0YfUQuDQr6ZDDf6e6ZrdjOUBm-vAM25J1wRxY4tLAOyKL",
+            title: "${currentBuild.currentResult} in ${env.JOB_NAME}",
+            link: env.BUILD_URL,
+            result: currentBuild.result,
+            image: img,
+            description: msg
+        )
+    }
 }
