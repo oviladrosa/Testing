@@ -83,5 +83,24 @@ pipeline {
             }
            
         }
+    stage('Deploy') {
+       when {
+                expression {
+                    currentBuild.result == null || currentBuild.result == 'SUCCESS'
+                }
+            }
+      stage('Prod') {
+                    when {
+                        branch 'master'
+                    }
+        stages {
+                        stage('Build production image') {
+                          echo 'Deploy try'
+                          
+                        }
+        }
+      }
+      
+    }
   }
 }
