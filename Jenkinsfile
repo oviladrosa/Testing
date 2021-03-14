@@ -112,11 +112,11 @@ pipeline {
    post {
         success {
             script {
-                if (env.BRANCH_NAME == 'main' || env.BRANCH_NAME == 'development') {
+                
                     def msg = commitInfo() + "\nCongratulations, your commit works!\nAnd it's already **deployed**!"
                     def img = 'https://ibb.co/RyQxQxP'
                     notifyDiscord(msg, img)
-                }
+                
             }
         }
         unstable {
@@ -149,7 +149,7 @@ def commitInfo() {
 def notifyDiscord(String msg, String img) {
     msg = msg + "\n\n[SonarQube](http://10.4.41.141:9000/dashboard?id=my%3AmuseaApi)"
         discordSend(
-            webhookURL: "https://discord.com/api/webhooks/820675539794657280/0QaawQ9Mm6b3yE_-MnV3AGm0YfUQuDQr6ZDDf6e6ZrdjOUBm-vAM25J1wRxY4tLAOyKL",
+            webhookURL: "https://discord.com/api/webhooks/820675539794657280/0QaawQ9Mm6b3yE_-MnV3AGm0YfUQuDQr6ZDDf6e6ZrdjOUBm-vAM25J1wRxY4tLAOyKL/jenkins",
             title: "${currentBuild.currentResult} in ${env.JOB_NAME}",
             link: env.BUILD_URL,
             result: currentBuild.result,
