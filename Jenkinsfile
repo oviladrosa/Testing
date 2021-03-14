@@ -84,23 +84,28 @@ pipeline {
            
         }
     stage('Deploy') {
-       when {
+      when {
                 expression {
                     currentBuild.result == null || currentBuild.result == 'SUCCESS'
                 }
             }
-      stage('Prod') {
-                    when {
-                        branch 'master'
-                    }
-        stages {
-                        stage('Build production image') {
-                          echo 'Deploy try'
-                          
-                        }
+      parallel {
+        stage('Stage') {
+          when {
+            branch 'development' 
+          }
+          steps {
+           echo 'deploy to development' 
+          }
+        }
+        stage('Prod') {
+          when {
+            branch 'main' 
+          }
+          steps {
+           echo 'deploy to master' 
+          }
         }
       }
-      
-    }
   }
 }
