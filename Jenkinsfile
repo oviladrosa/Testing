@@ -31,6 +31,7 @@ pipeline {
         }
       steps {
         echo 'Starting API tests'
+        sh 'npm test'
       }
     }
     stage('Sonarqube') {
