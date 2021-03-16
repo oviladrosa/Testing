@@ -24,9 +24,13 @@ pipeline {
       }
     }
     stage('Test') {
+      environment {
+                DATABASE_URL = 'mongodb+srv://admin:admin@museadb.091dp.mongodb.net/museaDB?retryWrites=true&w=majority'
+            }
         agent {
           docker {
             image 'node:10-alpine'
+            args '-e DATABASE_URL'
           }
         }
       steps {
